@@ -43,7 +43,6 @@ nbformat==5.4.0
 nest-asyncio==1.5.5
 notebook==6.4.12
 numpy==1.23.2
-opencv-contrib-python==4.6.0.66
 packaging==21.3
 pandas==1.5.1
 pandocfilters==1.5.0
@@ -64,9 +63,7 @@ pywin32==304
 pywinpty==2.0.7
 PyYAML==6.0
 pyzmq==23.2.1
-scikit-learn==1.2.1
 scipy==1.10.0
-seaborn==0.12.2
 Send2Trash==1.8.0
 six==1.16.0
 soupsieve==2.3.2.post1
