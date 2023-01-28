@@ -7,7 +7,7 @@ app = Flask(__name__)
 # environment variables
 os.environ['bot_id'] = '2032c1c3b2d8f0ffa1e7c5b4f9'
 
-@app.route("/messages", methods=['POST', 'GET'])
+@app.route("/messages", methods=['POST'])
 def messages():
   data = request.get_json()
   print(data, flush=True)
@@ -21,6 +21,8 @@ def messages():
 # check for hate speech, if it is respond
 def checkHateSpeech(data):
   hateSpeech = True #placeholder, just marking everything as hate speech
+  message = data['text']
+  print('message is: \'' + message + '\'', flush=True)
 
   if (hateSpeech):
     response('@' + data['name'] + ' watch your language. Your message has been flagged for hate speech.')
