@@ -1,7 +1,18 @@
+# model imports
+import numpy as np
+import pandas as pd
+from nltk.tokenize import TweetTokenizer
+from sklearn.feature_extraction.text import CountVectorizer
+import pickle
+
+model = pickle.load(open("model.sav", 'rb'))
+prep = pickle.load(open("prepped.sav", 'rb'))
+
+# server imports
 import os
 import requests
-
 from flask import Flask, request
+
 app = Flask(__name__)
 
 # environment variables
@@ -18,14 +29,28 @@ def messages():
 
   return 'ok', 200
 
+# tokenize message input
+def tokenize(inpt, t):
+    tok = TweetTokenizer()
+    vec = CountVectorizer(analyzer="word", tokenizer=tok.tokenize, max_features=1010)
+    t = vec.fit_transform(t).toarray()
+    inpt = vec.transform(inpt).toarray()
+    return inpt
+
 # check for hate speech, if it is respond
 def checkHateSpeech(data):
-  hateSpeech = True #placeholder, just marking everything as hate speech
   message = data['text']
-  print('message is: \'' + message + '\'', flush=True)
+  d = [message]
+  d = pd.DataFrame(d, columns=['col'])
+  d = d['col']
+  d = tokenize(d, prep)
+
+  #2 - regular, 1 - offensive, 0 - hate
+  ans = model.predict(d)
+  hateSpeech = True if ans == 0 or ans == 1 else False
 
   if (hateSpeech):
-    response('@' + data['name'] + ' watch your language. Your message has been flagged for hate speech.')
+    response('@' + data['name'] + ' watch your language. Your message has been flagged for foul language.')
 
 # function used to send messages to groupme api
 def response(message):

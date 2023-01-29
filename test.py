@@ -8,20 +8,17 @@ import pickle
 model = pickle.load(open("model.sav", 'rb'))
 prep = pickle.load(open("prepped.sav", 'rb'))
 
-d = ['test string']
+d = ['hi my name is john']
 d = pd.DataFrame(d, columns=['col'])
 d = d['col']
 
 def tokenize(inpt, t):
     tok = TweetTokenizer()
     vec = CountVectorizer(analyzer="word", tokenizer=tok.tokenize, max_features=1010)
-    t = vec.fit_transform(t)
+    t = vec.fit_transform(t).toarray()
     inpt = vec.transform(inpt).toarray()
-    
     return inpt
-
 d = tokenize(d, prep)
-
 
 ans = model.predict(d)
 
