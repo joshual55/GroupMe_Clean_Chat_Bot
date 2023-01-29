@@ -8,7 +8,7 @@ import pickle
 model = pickle.load(open("model.sav", 'rb'))
 prep = pickle.load(open("prepped.sav", 'rb'))
 
-d = ['hi my name is john']
+d = ['hi my name is John']
 d = pd.DataFrame(d, columns=['col'])
 d = d['col']
 
