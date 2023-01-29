@@ -6,19 +6,22 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pickle
 
 model = pickle.load(open("model.sav", 'rb'))
+prep = pickle.load(open("prepped.sav", 'rb'))
 
-d = [["test string"]]
+d = ['test string']
+d = pd.DataFrame(d, columns=['col'])
+d = d['col']
 
-def tokenize(inpt):
+def tokenize(inpt, t):
     tok = TweetTokenizer()
     vec = CountVectorizer(analyzer="word", tokenizer=tok.tokenize, max_features=1010)
-    inpt = vec.fit_transform(inpt).toarray()
-    ex = [0 for i in range(0,1010-inpt[0].size)]
-    inpt = np.append(inpt, ex)
+    t = vec.fit_transform(t)
+    inpt = vec.transform(inpt).toarray()
     
     return inpt
 
-d[0] = tokenize(d[0])
+d = tokenize(d, prep)
+
 
 ans = model.predict(d)
 
